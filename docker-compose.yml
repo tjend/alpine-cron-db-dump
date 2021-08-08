@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  dump:
+    build:
+      args:
+        - TARGETARCH=amd64
+      context: .
+    environment:
+      - 'DUMP_EVERY_X_HOURS=1' # dump every hour
+      - 'MYSQL_DATABASE=mysql'
+      - 'MYSQL_HOST=mysql'
+      - 'MYSQL_PASSWORD=mysql'
+      - 'MYSQL_USER=mysql'
+      - 'POSTGRES_DATABASE=postgres'
+      - 'POSTGRES_HOST=postgres'
+      - 'POSTGRES_PASSWORD=postgres'
+      - 'POSTGRES_USER=postgres'
+    volumes:
+      - ./dumps:/dumps
+  mysql:
+    environment:
+      - 'MARIADB_DATABASE=mysql'
+      - 'MARIADB_PASSWORD=mysql'
+      - 'MARIADB_RANDOM_ROOT_PASSWORD=yes'
+      - 'MARIADB_USER=mysql'
+    image: mariadb:latest
+  postgres:
+    environment:
+      - 'POSTGRES_DB=postgres'
+      - 'POSTGRES_PASSWORD=postgres'
+      - 'POSTGRES_USER=postgres'
+    image: postgres:alpine
